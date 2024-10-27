@@ -33,17 +33,13 @@ const documentation = (app: Elysia) =>
 			excludeTags: ["default"],
 			path: "/docs",
 			scalarConfig: {
-				darkMode: true,
-				theme: "purple",
 				defaultHttpClient: {
 					targetKey: "javascript",
 					clientKey: "fetch",
 				},
 				hiddenClients,
-				hideDownloadButton: true,
 				defaultOpenAllTags: true,
 			},
-			provider: "scalar",
 			documentation: {
 				components: {
 					securitySchemes: {

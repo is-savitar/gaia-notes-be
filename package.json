@@ -6,9 +6,11 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@elysiajs/server-timing": "^1.1.0",
     "@elysiajs/swagger": "^1.1.5",
     "elysia": "latest",
     "elysia-autoload": "^1.4.0",
+    "logixlysia": "^3.7.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
