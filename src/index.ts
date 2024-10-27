@@ -1,7 +1,21 @@
 import { Elysia } from "elysia";
+import { autoload } from "elysia-autoload";
+import documentation from "./lib/plugins/documentation";
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+const prefix = "/api/v1//" as const;
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
+const app = new Elysia({ name: "app" }).use(documentation).use(
+	await autoload({
+		prefix,
+		dir: "./routes/",
+		types: {
+			output: "./lib/routes.ts",
+			typeName: "EdenRoutes",
+		},
+	}),
 );
+
+await app.modules;
+app.listen(3002, () => app.routes.map((x) => x.path));
+
+export type ElysiaApp = typeof app;
