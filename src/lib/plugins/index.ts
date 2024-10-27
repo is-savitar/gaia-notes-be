@@ -4,7 +4,7 @@ import logixlysia from "logixlysia";
 import documentation from "./documentation";
 import errorHandlers from "./error-handler";
 
-export const plugins = new Elysia({ name: "plugins" })
+export const plugins = new Elysia({ name: "plugins.index" })
 	.use(serverTiming())
 	.use(
 		logixlysia({
