@@ -16,7 +16,7 @@ const app = new Elysia({ name: "app" })
 			},
 		}),
 	)
-	.listen(3002);
+	.listen(3000);
 
 await app.modules;
 export type ElysiaApp = typeof app;

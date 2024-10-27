@@ -19,18 +19,23 @@ const profileService = {
 		data: Partial<typeof profileTable.$inferInsert>,
 	) => {
 		try {
-			const { userId: _, ...updateData } = data;
+			const { userId: _, id: __, ...updateData } = data;
 
-			const [updatedPost] = await db
+			if (Object.keys(updateData).length === 0) {
+				throw new Error("No fields provided to update");
+			}
+
+			const [updatedProfile] = await db
 				.update(profileTable)
 				.set({ ...updateData })
 				.where(eq(profileTable.id, id))
 				.returning();
 
-			return updatedPost;
+			return updatedProfile;
 		} catch (err) {
+			console.log(err);
 			if (err instanceof postgres.PostgresError) {
-				throw new InternalServerError("");
+				throw new InternalServerError("lol");
 			}
 		}
 	},
