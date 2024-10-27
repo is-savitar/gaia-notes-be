@@ -15,41 +15,42 @@ export default new Elysia({
 	.model("AuthModel", AuthModel)
 	.model("LoginResponseModel", LoginResponseModel)
 	.use(jwtPlugin)
-	.guard({
-		detail: {
-			security: accessTokenSecurity,
-			description: "Requires user to be logged in",
+	.guard(
+		{
+			detail: {
+				security: accessTokenSecurity,
+				description: "Requires user to be logged in",
+			},
 		},
-	})
-	.guard({}, (app) =>
-		app.use(accessTokenPlugin).get(
-			"",
-			async ({ payload }) => {
-				console.log(payload);
+		(app) =>
+			app.use(accessTokenPlugin).get(
+				"",
+				async ({ payload }) => {
+					console.log(payload);
 
-				return {
-					status: 200,
-					detail: "Logged out successfully",
-				};
-			},
-			{
-				async beforeHandle({ payload }) {
-					if (!payload) {
-						throw new AuthorizationError("Invalid Token");
-					}
+					return {
+						status: 200,
+						detail: "Logged out successfully",
+					};
 				},
-				response: {
-					200: t.Object({
-						status: t.Number({ default: 200 }),
-						detail: t.String({ default: "Logout successful" }),
-					}),
-					401: ERRORS.UNAUTHORIZED,
+				{
+					async beforeHandle({ payload }) {
+						if (!payload) {
+							throw new AuthorizationError("Invalid Token");
+						}
+					},
+					response: {
+						200: t.Object({
+							status: t.Number({ default: 200 }),
+							detail: t.String({ default: "Logout successful" }),
+						}),
+						401: ERRORS.UNAUTHORIZED,
+					},
+					detail: {
+						summary: "Logout",
+						description: "Logs current user out",
+						security: accessTokenSecurity,
+					},
 				},
-				detail: {
-					summary: "Logout",
-					description: "Logs current user out",
-					security: accessTokenSecurity,
-				},
-			},
-		),
+			),
 	);

@@ -2,7 +2,7 @@ import { Elysia } from "elysia";
 import { autoload } from "elysia-autoload";
 import { plugins } from "./lib/plugins";
 
-const prefix = "/api/v1//" as const;
+const prefix = "/api/v1/" as const;
 
 const app = new Elysia({ name: "app" })
 	.use(plugins)

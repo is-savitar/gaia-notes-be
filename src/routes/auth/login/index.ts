@@ -12,11 +12,10 @@ export default new Elysia({
 	name: "api.auth.login",
 })
 	.use(bearer())
-	.model("AuthModel", AuthModel)
 	.model("LoginResponseModel", LoginResponseModel)
 	.use(jwtPlugin)
 	.post(
-		"/login",
+		"",
 		async ({
 			body: { stxAddressMainnet, password },
 			accessJwt,
@@ -79,7 +78,7 @@ export default new Elysia({
 			};
 		},
 		{
-			body: "AuthModel",
+			body: AuthModel,
 			response: {
 				401: ERRORS.UNAUTHORIZED,
 				200: LoginResponseModel,

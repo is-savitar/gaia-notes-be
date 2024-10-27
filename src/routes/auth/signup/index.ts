@@ -22,7 +22,7 @@ export default new Elysia({
 		},
 		(app) =>
 			app.post(
-				"/sign-up",
+				"",
 				async ({ body: { password, stxAddressMainnet }, set, error }) => {
 					const existingUser = await authService.isUserExist(stxAddressMainnet);
 
