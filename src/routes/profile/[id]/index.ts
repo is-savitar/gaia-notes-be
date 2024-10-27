@@ -1,5 +1,10 @@
 import { insertProfileSchema, selectProfileSchema } from "@/db/schema/profile";
-import { AuthorizationError, NotFoundError } from "@/exceptions/errors";
+import {
+	AuthorizationError,
+	InternalServerError,
+	InvariantError,
+	NotFoundError,
+} from "@/exceptions/errors";
 import { accessTokenPlugin } from "@/lib/auth";
 import { ERRORS } from "@/models/error";
 import profileService from "@/services/profile";
@@ -21,40 +26,42 @@ export default new Elysia({ name: "api.profile.index", tags })
 			},
 		},
 		(app) =>
-			app
-				.get(
-					"",
-					async ({ payload }) => {
-						const profile = await profileService.get(
-							payload && "user" in payload ? payload.user.id : "",
+			app.patch(
+				"",
+				async ({ body, payload, params: { id } }) => {
+					const existingProfile = await profileService.isOwner(
+						id,
+						payload && "user" in payload ? payload.user.id : "",
+					);
+
+					if (!existingProfile) {
+						throw new AuthorizationError(
+							"You do not have permission to edit this profile",
 						);
+					}
 
-						if (!profile) {
-							throw new NotFoundError("User profile not found");
-						}
+					const updatedProfile = await profileService.patch(
+						payload && "user" in payload ? payload.user.id : "",
+						body,
+					);
+					if (!updatedProfile) {
+						throw new InternalServerError("An unexpected error occured");
+					}
 
-						return profile;
+					return updatedProfile;
+				},
+				{
+					response: {
+						200: selectProfileSchema,
+						401: ERRORS.UNAUTHORIZED,
+						500: ERRORS.INTERNAL_SERVER_ERROR,
 					},
-					{
-						response: {
-							200: selectProfileSchema,
-							404: ERRORS.NOT_FOUND,
-						},
-						detail: {
-							summary: "Get Profile",
-							description: "Gets a user profile",
-
-							security: accessTokenSecurity,
-						},
-					},
-				)
-				.patch(
-					"",
-					async ({ body }) => {
-						// const up
-					},
-					{
-						body: t.Omit(insertProfileSchema, ["id", "createdAt", "updatedAt"]),
-					},
-				),
+					params: t.Object({
+						id: t.String(),
+					}),
+					body: t.Optional(
+						t.Omit(insertProfileSchema, ["id", "createdAt", "updatedAt"]),
+					),
+				},
+			),
 	);
