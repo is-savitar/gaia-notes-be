@@ -10,6 +10,8 @@
     "studio": "bunx drizzle-kit studio"
   },
   "dependencies": {
+    "@elysiajs/bearer": "^1.1.2",
+    "@elysiajs/jwt": "^1.1.1",
     "@elysiajs/server-timing": "^1.1.0",
     "@elysiajs/swagger": "^1.1.5",
     "cross-env": "^7.0.3",
@@ -20,6 +22,7 @@
     "elysia-autoload": "^1.4.0",
     "logixlysia": "^3.7.0",
     "postgres": "^3.4.5",
+    "uuid": "^11.0.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
