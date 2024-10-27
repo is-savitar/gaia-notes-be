@@ -2,9 +2,9 @@ import Elysia from "elysia";
 import bearer from "@elysiajs/bearer";
 import { v4 as uuidv4 } from "uuid";
 import { jwtPlugin } from "@/lib/auth";
-import { authService } from "src/services/auth";
 import { AuthModel, LoginResponseModel } from "@/models/auth";
 import { ERRORS } from "@/models/error";
+import { authService } from "@/services/auth";
 
 const tags = ["Auth"];
 export default new Elysia({

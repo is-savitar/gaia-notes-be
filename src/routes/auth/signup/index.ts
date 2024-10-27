@@ -1,12 +1,12 @@
 import Elysia, { t } from "elysia";
 import bearer from "@elysiajs/bearer";
 import { jwtPlugin } from "@/lib/auth";
-import { authService } from "src/services/auth";
 import { db } from "@/db";
 import { userTable } from "@/db/schema";
 import { selectUserSchema } from "@/db/schema/user";
 import { AuthModel } from "@/models/auth";
 import { ERRORS } from "@/models/error";
+import { authService } from "@/services/auth";
 
 const tags = ["Auth"];
 export default new Elysia({
