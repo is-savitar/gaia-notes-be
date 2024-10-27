@@ -2,7 +2,7 @@ import Elysia, { t } from "elysia";
 import bearer from "@elysiajs/bearer";
 import { jwtPlugin } from "@/lib/auth";
 import { db } from "@/db";
-import { userTable } from "@/db/schema";
+import { profileTable, userTable } from "@/db/schema";
 import { selectUserSchema } from "@/db/schema/user";
 import { AuthModel } from "@/models/auth";
 import { ERRORS } from "@/models/error";
@@ -42,6 +42,12 @@ export default new Elysia({
 							passwordHash: hashedPasswd,
 						})
 						.returning();
+
+					await db.insert(profileTable).values({
+						userId: newUser.id,
+						username: stxAddressMainnet,
+					});
+
 					// const { password_hash, ...userWithoutPassword } = newUser;
 
 					set.status = "Created";
