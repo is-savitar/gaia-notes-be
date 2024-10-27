@@ -1,16 +1,15 @@
 import Elysia, { t } from "elysia";
 import bearer from "@elysiajs/bearer";
-import { v4 as uuidv4 } from "uuid";
-import { jwtPlugin, accessTokenPlugin, refreshTokenPlugin } from "@/lib/auth";
+import { jwtPlugin, accessTokenPlugin } from "@/lib/auth";
 import { AuthorizationError } from "@/exceptions/errors";
 import { AuthModel, LoginResponseModel } from "@/models/auth";
 import { ERRORS } from "@/models/error";
-import { accessTokenSecurity, refreshTokenSecurity } from "@/utils/security";
+import { accessTokenSecurity } from "@/utils/security";
 
 const tags = ["Auth"];
 export default new Elysia({
 	tags,
-	name: "api.auth.index",
+	name: "api.auth.logout",
 })
 	.use(bearer())
 	.model("AuthModel", AuthModel)

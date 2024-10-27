@@ -1,7 +1,6 @@
 export { user as userTable } from "./user";
 export {
 	profile as profileTable,
-	settings as settingsTable,
 	profileRelations,
-	settingsRelations,
 } from "./profile";
+export { settings as settingsTable, settingsRelations } from "./settings";

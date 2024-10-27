@@ -10,7 +10,7 @@ import { refreshTokenSecurity } from "@/utils/security";
 const tags = ["Auth"];
 export default new Elysia({
 	tags,
-	name: "api.auth.index",
+	name: "api.auth.refresh",
 })
 	.use(bearer())
 	.model("AuthModel", AuthModel)

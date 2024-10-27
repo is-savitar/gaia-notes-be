@@ -9,7 +9,7 @@ import { authService } from "@/services/auth";
 const tags = ["Auth"];
 export default new Elysia({
 	tags,
-	name: "api.auth.index",
+	name: "api.auth.login",
 })
 	.use(bearer())
 	.model("AuthModel", AuthModel)
