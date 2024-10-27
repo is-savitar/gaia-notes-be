@@ -1,10 +1,10 @@
-import { relations, sql } from "drizzle-orm";
-import { timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import { relations } from "drizzle-orm";
+import { uniqueIndex } from "drizzle-orm/pg-core";
 import { pgTable, uuid } from "drizzle-orm/pg-core";
 import { user } from "./user";
 import { TIMESTAMP, UUID } from "../utils";
 
-const settings = pgTable(
+export const settings = pgTable(
 	"settings",
 	{
 		...UUID,
@@ -23,4 +23,3 @@ const settings = pgTable(
 export const settingsRelations = relations(settings, ({ one }) => ({
 	user: one(user, { fields: [settings.userId], references: [user.id] }),
 }));
-export default settings;
