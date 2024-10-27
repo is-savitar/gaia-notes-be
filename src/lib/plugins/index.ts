@@ -16,5 +16,4 @@ export const plugins = new Elysia({ name: "plugins.index" })
 		}),
 	)
 	.use(errorHandlers)
-	.as("global")
 	.use(documentation);

@@ -18,7 +18,7 @@
     "drizzle-kit": "^0.26.2",
     "drizzle-orm": "^0.35.3",
     "drizzle-typebox": "^0.1.1",
-    "elysia": "latest",
+    "elysia": "1.1.22",
     "elysia-autoload": "^1.4.0",
     "logixlysia": "^3.7.0",
     "postgres": "^3.4.5",

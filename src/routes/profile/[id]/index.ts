@@ -1,10 +1,5 @@
 import { insertProfileSchema, selectProfileSchema } from "@/db/schema/profile";
-import {
-	AuthorizationError,
-	InternalServerError,
-	InvariantError,
-	NotFoundError,
-} from "@/exceptions/errors";
+import { AuthorizationError, InternalServerError } from "@/exceptions/errors";
 import { accessTokenPlugin } from "@/lib/auth";
 import { ERRORS } from "@/models/error";
 import profileService from "@/services/profile";
@@ -40,10 +35,7 @@ export default new Elysia({ name: "api.profile.index", tags })
 						);
 					}
 
-					const updatedProfile = await profileService.patch(
-						payload && "user" in payload ? payload.user.id : "",
-						body,
-					);
+					const updatedProfile = await profileService.patch(id, body);
 					if (!updatedProfile) {
 						throw new InternalServerError("An unexpected error occured");
 					}
@@ -59,7 +51,7 @@ export default new Elysia({ name: "api.profile.index", tags })
 					params: t.Object({
 						id: t.String(),
 					}),
-					body: t.Optional(
+					body: t.Partial(
 						t.Omit(insertProfileSchema, ["id", "createdAt", "updatedAt"]),
 					),
 				},

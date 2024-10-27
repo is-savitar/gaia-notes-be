@@ -24,6 +24,9 @@ const errorHandlers = new Elysia({ name: "plugin.errors" })
 	.error("INTERNAL_SERVER_ERROR", InternalServerError)
 	.error("CONFLICT_ERROR", ConflictError)
 	.onError(({ code, error, set }) => {
+		set.headers["content-type"] = "application/json";
+		console.log(code, error);
+
 		switch (code) {
 			case "AUTHORIZATION_ERROR":
 				set.status = 401;
@@ -63,5 +66,6 @@ const errorHandlers = new Elysia({ name: "plugin.errors" })
 				};
 		}
 	})
-	.as("plugin");
+	.as("global");
+
 export default errorHandlers;
