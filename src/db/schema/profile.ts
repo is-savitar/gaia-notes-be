@@ -11,6 +11,8 @@ export const profile = pgTable(
 		...UUID,
 		...TIMESTAMP,
 		username: varchar("username", { length: 255 }).unique(),
+		bio: text("bio"),
+		pronouns: text("pronouns"),
 		name: varchar("name", { length: 100 }),
 		profileImg: text("profile_img"),
 		coverImg: text("cover_img"),
