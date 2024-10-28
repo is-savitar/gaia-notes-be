@@ -1,23 +1,32 @@
-import { relations, sql } from "drizzle-orm";
-import { pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-typebox";
+import { relations } from "drizzle-orm";
+import { pgTable, uuid, varchar } from "drizzle-orm/pg-core";
+import { createInsertSchema, createSelectSchema } from "drizzle-typebox";
 import { t } from "elysia";
+import { blogTable } from ".";
+import { TIMESTAMP, UUID } from "../utils";
 
 export const category = pgTable("category", {
-	id: uuid("id").primaryKey().notNull().defaultRandom(),
+	...UUID,
 	name: varchar("name", { length: 100 }).notNull().unique(),
-	createdAt: timestamp("created_at", { mode: "string" }).notNull().defaultNow(),
-	updatedAt: timestamp("updated_at", { mode: "string" })
+	...TIMESTAMP,
+});
+
+// Junction table for many-to-many relationship
+export const postToCategory = pgTable("post_to_category", {
+	postId: uuid("post_id")
 		.notNull()
-		.defaultNow()
-		.$onUpdate(() => sql`now()`),
+		.references(() => blogTable.id),
+	categoryId: uuid("category_id")
+		.notNull()
+		.references(() => category.id),
 });
 
 export const categoryRelations = relations(category, ({ many }) => ({
-	posts: many(postTable),
+	posts: many(postToCategory),
 }));
 
 export const insertCategorySchema = createInsertSchema(category, {
 	name: t.String({ minLength: 1 }),
 });
-export const selectCategorySchema = createInsertSchema(category);
+
+export const selectCategorySchema = createSelectSchema(category);
