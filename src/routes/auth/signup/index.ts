@@ -7,6 +7,7 @@ import { selectUserSchema } from "@/db/schema/user";
 import { AuthModel } from "@/models/auth";
 import { ERRORS } from "@/models/error";
 import { authService } from "@/services/auth";
+import { ConflictError } from "@/exceptions/errors";
 
 const tags = ["Auth"];
 export default new Elysia({
@@ -27,11 +28,7 @@ export default new Elysia({
 					const existingUser = await authService.isUserExist(stxAddressMainnet);
 
 					if (existingUser) {
-						return error(409, {
-							status: 409,
-							detail: "Username already exists",
-							error: "Conflict",
-						});
+						throw new ConflictError("Username already exists");
 					}
 
 					const hashedPasswd = await Bun.password.hash(password);

@@ -15,6 +15,13 @@
       "when": 1730048723076,
       "tag": "0001_fantastic_vin_gonzales",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1730071554277,
+      "tag": "0002_tidy_unus",
+      "breakpoints": true
     }
   ]
 }
